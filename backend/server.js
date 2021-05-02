@@ -7,11 +7,13 @@ const port = process.env.PORT || 5000;
 const db = require('./config/db');
 
 const patientsRoutes = require('./routes/patient');
+const usersRoutes = require('./routes/user');
 
 // Test DB
 db.authenticate()
   .then(async () => {
     console.log('Connected !');
+    require('./seeder');
   })
   .catch((err) => {
     console.error(err.message);
@@ -25,6 +27,7 @@ app.use(cors());
 
 // Define Routes
 app.use('/api/patients', patientsRoutes);
+app.use('/api/users', usersRoutes);
 
 app.get('/', (req, res) => res.send('Hello from M-Social backend!'));
 
