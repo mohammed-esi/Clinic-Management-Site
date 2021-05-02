@@ -4,4 +4,5 @@ module.exports = {
   database: 'clinic_management_data',
   host: 'localhost',
   dialect: 'mysql',
+  jwtSecret: 'clinic-management-site-sercret',
 };
