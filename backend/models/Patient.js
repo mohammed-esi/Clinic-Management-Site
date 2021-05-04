@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
+const User = require('./User');
 const db = require('../config/db');
 
-const User = db.define(
+const Patient = db.define(
   'patients',
   {
     first_name: {
@@ -36,6 +37,14 @@ const User = db.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    user_id: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: User,
+        key: 'id',
+      },
+      allowNull: false,
+    },
   },
   {
     charset: 'utf8',
@@ -43,4 +52,4 @@ const User = db.define(
   }
 );
 
-module.exports = User;
+module.exports = Patient;

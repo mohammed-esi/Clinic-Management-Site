@@ -1,12 +1,14 @@
 const { validationResult } = require('express-validator');
 const Patient = require('../models/Patient');
+const User = require('../models/User');
 
 // @route GET /api/patients
 // @desc  Get patients
 // @access  Null
-getPatients = async (req, res, next) => {
+const getPatients = async (req, res, next) => {
   const patients = await Patient.findAll({
     order: [['createdAt', 'DESC']],
+    include: [{ model: User }],
   });
 
   res.json(patients);
@@ -15,7 +17,7 @@ getPatients = async (req, res, next) => {
 // @route POST /api/patients
 // @desc  Create patient
 // @access  Null
-createPatient = async (req, res, next) => {
+const createPatient = async (req, res, next) => {
   let errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -41,7 +43,24 @@ createPatient = async (req, res, next) => {
     email,
     phone_number,
     blood_group,
+    user_id: req.user.id,
   });
+
+  res.json(patient);
+};
+
+// @route GET /api/patients/:id
+// @desc  Get patient by ID
+// @access  Public
+const getPatient = async (req, res, next) => {
+  const patient = await Patient.findOne({
+    where: { id: req.params.id },
+    include: [{ model: User }],
+  });
+
+  if (!patient) {
+    return res.status(404).json({ msg: 'Patient not found!' });
+  }
 
   res.json(patient);
 };
@@ -49,4 +68,5 @@ createPatient = async (req, res, next) => {
 module.exports = {
   getPatients,
   createPatient,
+  getPatient,
 };

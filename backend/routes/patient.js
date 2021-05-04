@@ -3,12 +3,20 @@ const router = express.Router();
 
 const { check } = require('express-validator');
 
+// Middlewares
+const authMiddleware = require('../middleware/authMiddleware');
+
 // Controllers
-const { getPatients, createPatient } = require('../controllers/patients');
+const {
+  getPatients,
+  createPatient,
+  getPatient,
+} = require('../controllers/patients');
 
 router
   .route('/')
   .post(
+    authMiddleware,
     [
       check('first_name', 'First Name is required!').notEmpty(),
       check('last_name', 'Last Name is required!').notEmpty(),
@@ -26,6 +34,7 @@ router
     ],
     createPatient
   )
-  .get(getPatients);
+  .get(authMiddleware, getPatients);
+router.get('/:id', authMiddleware, getPatient);
 
 module.exports = router;
