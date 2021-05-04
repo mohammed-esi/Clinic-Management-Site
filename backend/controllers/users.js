@@ -56,9 +56,12 @@ const loginUser = async (req, res, next) => {
     },
   };
 
-  jwt.sign(payload, jwtSecret, (err, token) => {
-    if (err) throw err;
-    return res.json({ token });
+  res.json({
+    _id: user._id,
+    full_name: user.full_name,
+    email: user.email,
+    role: user.role,
+    token: generateToken(payload),
   });
 };
 
