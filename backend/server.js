@@ -8,6 +8,7 @@ const db = require('./config/db');
 
 const patientsRoutes = require('./routes/patient');
 const usersRoutes = require('./routes/user');
+const appointmentRoutes = require('./routes/appointment');
 
 // Test DB
 db.authenticate()
@@ -28,6 +29,7 @@ app.use(cors());
 // Define Routes
 app.use('/api/patients', patientsRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/appointments', appointmentRoutes);
 
 app.get('/', (req, res) => res.send('Hello from M-Social backend!'));
 
