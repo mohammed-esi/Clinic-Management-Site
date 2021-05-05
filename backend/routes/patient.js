@@ -11,6 +11,8 @@ const {
   getPatients,
   createPatient,
   getPatient,
+  deletePatient,
+  updatePatient,
 } = require('../controllers/patients');
 
 router
@@ -35,6 +37,10 @@ router
     createPatient
   )
   .get(authMiddleware, getPatients);
-router.get('/:id', authMiddleware, getPatient);
+router
+  .route('/:id')
+  .get(authMiddleware, getPatient)
+  .delete(authMiddleware, deletePatient)
+  .put(authMiddleware, updatePatient);
 
 module.exports = router;
