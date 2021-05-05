@@ -3,6 +3,7 @@ const db = require('./config/db');
 
 const User = require('./models/User');
 const Patient = require('./models/Patient');
+const Appointment = require('./models/Appointment');
 
 const { DOCTOR, SECRETARY } = require('./utils/roles');
 
@@ -40,6 +41,14 @@ db.sync().then(async () => {
   // Patient - User
   Patient.belongsTo(User, { foreignKey: 'user_id' });
   User.hasOne(Patient, { foreignKey: 'user_id' });
+
+  // Appointment - User
+  Appointment.belongsTo(User, { foreignKey: 'user_id' });
+  User.hasOne(Appointment, { foreignKey: 'user_id' });
+
+  // Appointment - Patient
+  Appointment.belongsTo(Patient, { foreignKey: 'patient_id' });
+  Patient.hasOne(Appointment, { foreignKey: 'patient_id' });
 
   //#endregion Associations
 
