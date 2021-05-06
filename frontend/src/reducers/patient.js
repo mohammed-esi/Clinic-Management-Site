@@ -20,7 +20,7 @@ function patientReducer(state = initialState, action) {
     case CREATE_PATIENT:
       return {
         ...state,
-        patients: [payload, ...state.categories],
+        patients: [payload, ...state.patients],
         loading: false,
       };
     case PAITENT_ERROR:
