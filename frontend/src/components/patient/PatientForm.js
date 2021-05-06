@@ -48,96 +48,124 @@ function PtientForm({ addPatient, error }) {
     toast.success('Patient has been created !');
   };
   return (
-    <div className='container my-5'>
-      <form onSubmit={onSubmit}>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='First Name'
-            name='first_name'
-            value={first_name}
-            onChange={onChange}
-            required
-          />
+    <div className='container'>
+      <div className='card'>
+        <div className='card-body'>
+          <form onSubmit={onSubmit}>
+            <div className='form-group'>
+              <input
+                type='text'
+                placeholder='First Name'
+                className='form-control'
+                name='first_name'
+                value={first_name}
+                onChange={onChange}
+                required
+              />
+            </div>
+            <div className='form-group'>
+              <input
+                type='last_name'
+                placeholder='Last Name'
+                className='form-control'
+                name='last_name'
+                value={last_name}
+                onChange={onChange}
+                required
+              />
+            </div>
+            <div className='form-group'>
+              <input
+                type='number'
+                placeholder='Your Age'
+                className='form-control'
+                name='age'
+                value={age}
+                onChange={onChange}
+                required
+              />
+            </div>
+            <div className='form-group'>
+              <input
+                type='text'
+                placeholder='City'
+                className='form-control'
+                name='city'
+                value={city}
+                onChange={onChange}
+                required
+              />
+            </div>
+            <div className='form-group'>
+              <select
+                name='sex'
+                value={sex}
+                className='form-control'
+                onChange={onChange}
+              >
+                <option value='' disabled>
+                  Choose The Gender....
+                </option>
+                <option value='Male'>Male</option>
+                <option value='Female'>Female</option>
+              </select>
+            </div>
+            <div className='form-group'>
+              <input
+                type='email'
+                placeholder='Email'
+                className='form-control'
+                name='email'
+                value={email}
+                onChange={onChange}
+                required
+              />
+            </div>
+            <div className='form-group'>
+              <input
+                type='text'
+                placeholder='Phone Number'
+                className='form-control'
+                name='phone_number'
+                value={phone_number}
+                onChange={onChange}
+                required
+              />
+            </div>
+            <div className='form-group'>
+              <select
+                name='blood_group'
+                value={blood_group}
+                className='form-control'
+                onChange={onChange}
+              >
+                <option value='' disabled>
+                  Chose Blood Group....
+                </option>
+                <option value='A+'>A+</option>
+                <option value='A-'>A-</option>
+                <option value='B+'>B+</option>
+                <option value='B-'>B-</option>
+                <option value='O+'>O+</option>
+                <option value='O-'>O-</option>
+                <option value='AB+'>AB+</option>
+                <option value='AB-'>AB-</option>
+              </select>
+            </div>
+            <div className='d-flex'>
+              <input
+                type='submit'
+                className='btn btn-primary'
+                value={'Create'}
+              />
+              <Link to='/dashboard' className='btn btn-info ml-2'>
+                Come Back
+              </Link>
+            </div>
+          </form>
+          <ToastContainer />
         </div>
-        <div className='form-group'>
-          <input
-            type='last_name'
-            placeholder='Last Name'
-            name='last_name'
-            value={last_name}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='number'
-            placeholder='Your Age'
-            name='age'
-            value={age}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='City'
-            name='city'
-            value={city}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Sex'
-            name='sex'
-            value={sex}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='email'
-            placeholder='Email'
-            name='email'
-            value={email}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Phone Number'
-            name='phone_number'
-            value={phone_number}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Blood Group'
-            name='blood_group'
-            value={blood_group}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className='d-flex'>
-          <input type='submit' className='btn btn-primary' value={'Create'} />
-          <Link to='/' className='btn btn-info ml-2'>
-            Come Back
-          </Link>
-        </div>
-      </form>
-      <ToastContainer />
+      </div>
     </div>
   );
 }

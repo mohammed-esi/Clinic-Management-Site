@@ -15,17 +15,34 @@ function Patients({ getPatients, patient: { patients, loading } }) {
       {!loading ? (
         <div className='container my-5'>
           <div className='row my-5'>
-            <Link to='/create_patient' className='btn btn-primary btn-block'>
+            <Link
+              to='/dashboard/create_patient'
+              className='btn btn-primary btn-block'
+            >
               Create Patient
             </Link>
           </div>
+          <div className='row mb-4'>
+            <h1>All Patient</h1>
+          </div>
           <div className='row'>
             {patients.length > 0 ? (
-              <ul className='list-group list-group-flush'>
+              <table className='table'>
+                <thead>
+                  <tr>
+                    <th scope='col'>Frist Name</th>
+                    <th scope='col'>Last Name</th>
+                    <th scope='col'>City</th>
+                    <th scope='col'>Sex</th>
+                    <th scope='col'>Age</th>
+                    <th scope='col'>Blood Group</th>
+                    <th scope='col'>Phone Number</th>
+                  </tr>
+                </thead>
                 {patients.map((patient) => (
                   <PatientItem key={patient.id} patient={patient} />
                 ))}
-              </ul>
+              </table>
             ) : (
               <p>There are no patients</p>
             )}

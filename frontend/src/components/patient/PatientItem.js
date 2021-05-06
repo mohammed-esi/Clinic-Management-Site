@@ -2,12 +2,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function PtientItem({ patient }) {
-  const { first_name, last_name } = patient;
+  const {
+    id,
+    first_name,
+    last_name,
+    sex,
+    city,
+    age,
+    blood_group,
+    phone_number,
+  } = patient;
   return (
     <>
-      <li className='list-group-item'>
-        {first_name} {last_name}
-      </li>
+      <tbody>
+        <tr>
+          <td>{first_name}</td>
+          <td>{last_name}</td>
+          <td>{city}</td>
+          <td>{sex}</td>
+          <td>{age}</td>
+          <td>{blood_group}</td>
+          <td>{phone_number}</td>
+        </tr>
+      </tbody>
     </>
   );
 }
