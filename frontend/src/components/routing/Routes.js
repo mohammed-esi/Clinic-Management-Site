@@ -1,15 +1,16 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute';
 
-import Patients from '../patient/Patients';
-import PatientForm from '../patient/PatientForm';
+import Login from '../auth/Login';
+import DashboardRouting from '../routing/DashboardRouting';
 
 function Routes() {
   return (
     <>
       <Switch>
-        <Route exact path='/' component={Patients} />
-        <Route exact path='/create_patient' component={PatientForm} />
+        <Route exact path='/' component={Login} />
+        <PrivateRoute path='/dashboard' component={DashboardRouting} />
       </Switch>
     </>
   );
