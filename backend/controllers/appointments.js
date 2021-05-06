@@ -32,11 +32,16 @@ const createAppointment = async (req, res, next) => {
     return res.status(404).json({ msg: 'Patient not found!' });
   }
 
-  const appointment = await Appointment.create({
+  let appointment = await Appointment.create({
     appointment_date: req.body.appointment_date,
     appointment_hour: req.body.appointment_hour,
     user_id: req.user.id,
     patient_id: req.params.patientId,
+  });
+
+  appointment = await Appointment.findOne({
+    where: { id: appointment.id },
+    include: [{ model: User }, { model: Patient }],
   });
 
   res.json(appointment);
