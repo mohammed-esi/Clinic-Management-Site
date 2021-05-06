@@ -40,14 +40,14 @@ const loginUser = async (req, res, next) => {
   });
 
   if (!user) {
-    return res.status(400).json({ msg: 'Invalid Credentials' });
+    return res.json({ status_code: 400, msg: 'Invalid Credentials' });
   }
 
   // Checking if the password matches
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
-    return res.status(400).json({ msg: 'Invalid Credentials' });
+    return res.json({ status_code: 400, msg: 'Invalid Credentials' });
   }
 
   const payload = {
@@ -57,10 +57,7 @@ const loginUser = async (req, res, next) => {
   };
 
   res.json({
-    id: user.id,
-    full_name: user.full_name,
-    email: user.email,
-    role: user.role,
+    status_code: 200,
     token: generateToken(payload),
   });
 };
