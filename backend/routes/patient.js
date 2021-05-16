@@ -8,7 +8,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 // Controllers
 const {
-  getPatients,
+  getAndFilterPatients,
   createPatient,
   getPatient,
   deletePatient,
@@ -36,7 +36,7 @@ router
     ],
     createPatient
   )
-  .get(authMiddleware, getPatients);
+  .get(authMiddleware, getAndFilterPatients);
 router
   .route('/:id')
   .get(authMiddleware, getPatient)
