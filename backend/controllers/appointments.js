@@ -2,17 +2,85 @@ const { validationResult } = require('express-validator');
 const User = require('../models/User');
 const Patient = require('../models/Patient');
 const Appointment = require('../models/Appointment');
+const Op = require('sequelize').Op;
 
 // @route GET /api/appointments
 // @desc  Get appointments
 // @access  Private
-const getAppointmments = async (req, res, next) => {
-  const appointments = await Appointment.findAll({
-    order: [['createdAt', 'DESC']],
-    include: [{ model: User }, { model: Patient }],
-  });
+const getAndFilterAppointments = async (req, res, next) => {
+  let page = parseInt(req.query.page) || 1;
+  let limit = parseInt(req.query.size) || 5;
+  let filterPatients = req.query.filterPatients || 'false';
+  let first_name = req.query.first_name;
+  let last_name = req.query.last_name;
 
-  res.json(appointments);
+  const offset = page === 1 ? 0 : (page - 1) * limit;
+
+  console.log('offset = ' + offset);
+
+  let appointments = {};
+
+  // Get filter
+  if (filterPatients === 'true') {
+    // Filter by First Name
+    if (first_name) {
+      appointments = await Appointment.findAndCountAll({
+        include: [
+          { model: User },
+          {
+            model: Patient,
+            where: {
+              [Op.or]: [
+                {
+                  first_name: { [Op.like]: `%${first_name}%` },
+                },
+              ],
+            },
+            require: true,
+            right: true,
+          },
+        ],
+        limit: limit,
+        offset: offset,
+      });
+    }
+    // Filter by Last Name
+    if (last_name) {
+      appointments = await Appointment.findAndCountAll({
+        include: [
+          { model: User },
+          {
+            model: Patient,
+            where: {
+              [Op.or]: [
+                {
+                  last_name: { [Op.like]: `%${last_name}%` },
+                },
+              ],
+            },
+            require: true,
+            right: true,
+          },
+        ],
+        limit: limit,
+        offset: offset,
+      });
+    }
+  } else {
+    // Without filtering
+    appointments = await Appointment.findAndCountAll({
+      order: [['createdAt', 'DESC']],
+      include: [{ model: User }, { model: Patient }],
+      limit: limit,
+      offset: offset,
+    });
+  }
+
+  res.json({
+    appointments,
+    page,
+    pages: Math.ceil(appointments.count / limit),
+  });
 };
 
 // @route POST /api/appointments/:patientId
@@ -97,7 +165,7 @@ const updateAppointment = async (req, res, next) => {
 };
 
 module.exports = {
-  getAppointmments,
+  getAndFilterAppointments,
   createAppointment,
   deleteAppointment,
   updateAppointment,
