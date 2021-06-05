@@ -6,9 +6,14 @@ const port = process.env.PORT || 5000;
 
 const db = require('./config/db');
 
+// Import Routes
 const patientsRoutes = require('./routes/patient');
 const usersRoutes = require('./routes/user');
 const appointmentRoutes = require('./routes/appointment');
+const medicamentsRoutes = require('./routes/medicament');
+const prescribedMedicamentRoutes = require('./routes/prescribed_medicament');
+const prescriptionRoutes = require('./routes/prescription');
+const consultationRoutes = require('./routes/consultation');
 
 // Test DB
 db.authenticate()
@@ -30,6 +35,10 @@ app.use(cors());
 app.use('/api/patients', patientsRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/appointments', appointmentRoutes);
+app.use('/api/medicaments', medicamentsRoutes);
+app.use('/api/prescribed_medicaments', prescribedMedicamentRoutes);
+app.use('/api/prescriptions', prescriptionRoutes);
+app.use('/api/consultations', consultationRoutes);
 
 app.get('/', (req, res) => res.send('Hello from M-Social backend!'));
 
