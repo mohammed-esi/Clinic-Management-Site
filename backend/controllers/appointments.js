@@ -10,7 +10,7 @@ const Op = require('sequelize').Op;
 const getAndFilterAppointments = async (req, res, next) => {
   let page = parseInt(req.query.page) || 1;
   let limit = parseInt(req.query.size) || 5;
-  let filterPatients = req.query.filterPatients || 'false';
+  let filterAppointments = req.query.filterAppointments || 'false';
   let first_name = req.query.first_name;
   let last_name = req.query.last_name;
 
@@ -21,7 +21,7 @@ const getAndFilterAppointments = async (req, res, next) => {
   let appointments = {};
 
   // Get filter
-  if (filterPatients === 'true') {
+  if (filterAppointments === 'true') {
     // Filter by First Name
     if (first_name) {
       appointments = await Appointment.findAndCountAll({
