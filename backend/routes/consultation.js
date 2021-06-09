@@ -10,6 +10,9 @@ const authMiddleware = require('../middleware/authMiddleware');
 const {
   getConsultations,
   createConsultation,
+  updateConsultation,
+  deleteConsulation,
+  getConsultationById,
 } = require('../controllers/consultations');
 
 router.get('/', authMiddleware, getConsultations);
@@ -24,5 +27,10 @@ router.post(
   [check('observation', 'Observation is required!').notEmpty()],
   createConsultation
 );
+router
+  .route('/:id')
+  .get(authMiddleware, getConsultationById)
+  .put(authMiddleware, updateConsultation)
+  .delete(authMiddleware, deleteConsulation);
 
 module.exports = router;
