@@ -10,14 +10,16 @@ const authMiddleware = require('../middleware/authMiddleware');
 const {
   getPrescribedMedicaments,
   createPrescribedMedicament,
+  deletePrecrebedMedicament,
 } = require('../controllers/prescribed_medicaments');
 
 router.get('/', authMiddleware, getPrescribedMedicaments);
 router.post(
-  '/:medicamentId',
+  '/:medicamentId/:prescriptionId',
   authMiddleware,
   [check('dosage', 'dosge is required!').notEmpty()],
   createPrescribedMedicament
 );
+router.delete('/:id', authMiddleware, deletePrecrebedMedicament);
 
 module.exports = router;
