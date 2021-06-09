@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const User = require('./User');
 const Medicament = require('./Medicament');
+const Prescription = require('./Prescription');
 const db = require('../config/db');
 
 const PrescribedMedicament = db.define(
@@ -14,6 +15,14 @@ const PrescribedMedicament = db.define(
       type: Sequelize.INTEGER,
       references: {
         model: Medicament,
+        key: 'id',
+      },
+      allowNull: false,
+    },
+    prescription_id: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: Prescription,
         key: 'id',
       },
       allowNull: false,
