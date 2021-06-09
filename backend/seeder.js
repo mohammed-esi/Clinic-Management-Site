@@ -78,12 +78,12 @@ db.sync().then(async () => {
   PrescribedMedicament.belongsTo(Medicament, { foreignKey: 'medicament_id' });
   Medicament.hasOne(PrescribedMedicament, { foreignKey: 'medicament_id' });
 
-  // Prescription - Prescribed Medicament
-  Prescription.belongsTo(PrescribedMedicament, {
-    foreignKey: 'presc_medicament_id',
+  // Prescribed Medicament - Prescription
+  PrescribedMedicament.belongsTo(Prescription, {
+    foreignKey: 'prescription_id',
   });
-  PrescribedMedicament.hasOne(Prescription, {
-    foreignKey: 'presc_medicament_id',
+  Prescription.hasOne(PrescribedMedicament, {
+    foreignKey: 'prescription_id',
   });
 
   // Consultation - Prescription
