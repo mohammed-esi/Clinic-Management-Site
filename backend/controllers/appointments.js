@@ -164,9 +164,26 @@ const updateAppointment = async (req, res, next) => {
   res.json({ status_code: 200, message: 'Updated successfuly!' });
 };
 
+// @route GET /api/appointemnts/:id
+// @desc  Get appointemnt by ID
+// @access  Private
+const getAppointment = async (req, res, next) => {
+  const appointemnt = await Appointment.findOne({
+    where: { id: req.params.id },
+    include: [{ model: User }, { model: Patient }],
+  });
+
+  if (!appointemnt) {
+    return res.status(404).json({ msg: 'Appointment not found!' });
+  }
+
+  res.json(appointemnt);
+};
+
 module.exports = {
   getAndFilterAppointments,
   createAppointment,
   deleteAppointment,
   updateAppointment,
+  getAppointment,
 };

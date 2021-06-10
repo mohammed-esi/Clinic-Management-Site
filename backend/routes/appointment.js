@@ -12,6 +12,7 @@ const {
   createAppointment,
   deleteAppointment,
   updateAppointment,
+  getAppointment,
 } = require('../controllers/appointments');
 
 router.get('/', authMiddleware, getAndFilterAppointments);
@@ -26,6 +27,7 @@ router.post(
 );
 router
   .route('/:id')
+  .get(authMiddleware, getAppointment)
   .delete(authMiddleware, deleteAppointment)
   .put(authMiddleware, updateAppointment);
 
