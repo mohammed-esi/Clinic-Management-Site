@@ -13,7 +13,6 @@ const getConsultations = async (req, res, next) => {
   const consultations = await Consultation.findAll({
     order: [['createdAt', 'DESC']],
     include: [
-      { model: User },
       { model: Appointment, include: [{ model: Patient }] },
       { model: Prescription },
     ],
@@ -62,7 +61,10 @@ const createConsultation = async (req, res, next) => {
 
   consultation = await Consultation.findOne({
     where: { id: consultation.id },
-    include: [{ model: User }, { model: Appointment }, { model: Prescription }],
+    include: [
+      { model: Appointment, include: [{ model: Patient }] },
+      { model: Prescription },
+    ],
   });
 
   res.json(consultation);
