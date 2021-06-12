@@ -2,6 +2,7 @@ import {
   GET_APPOINTMENT,
   APPOINTMENT_ERROR,
   CREATE_APPOINTMENT,
+  GET_APPOINTMENT_BY_ID,
 } from '../utils/constant';
 
 const initialState = {
@@ -19,6 +20,12 @@ function appointmentReducer(state = initialState, action) {
       return {
         ...state,
         appointments: payload,
+        loading: false,
+      };
+    case GET_APPOINTMENT_BY_ID:
+      return {
+        ...state,
+        appointment: payload,
         loading: false,
       };
     case CREATE_APPOINTMENT:
