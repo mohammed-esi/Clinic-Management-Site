@@ -28,6 +28,16 @@ const Sidebar = ({ logout }) => {
           </Link>
         </li>
         <li>
+          <Link className='sidebar-link' to='/dashboard/medicaments'>
+            Medicaments
+          </Link>
+        </li>
+        <li>
+          <Link className='sidebar-link' to='/dashboard/consultations'>
+            Consultations
+          </Link>
+        </li>
+        <li>
           <a href='#!' onClick={logout}>
             Logout
           </a>
