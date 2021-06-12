@@ -6,10 +6,17 @@ import { getPatients } from '../../actinos/patient';
 
 import PatientItem from './PatientItem';
 
-function Patients({ getPatients, patient: { patients, loading } }) {
+function Patients({
+  getPatients,
+  patient: {
+    patients: { patients },
+    loading,
+  },
+}) {
   useEffect(() => {
     getPatients();
   }, [getPatients]);
+
   return (
     <>
       {!loading ? (
@@ -26,7 +33,7 @@ function Patients({ getPatients, patient: { patients, loading } }) {
             <h1>All Patient</h1>
           </div>
           <div className='row'>
-            {patients.length > 0 ? (
+            {patients.rows.length > 0 ? (
               <table className='table'>
                 <thead>
                   <tr>
@@ -39,7 +46,7 @@ function Patients({ getPatients, patient: { patients, loading } }) {
                     <th scope='col'>Phone Number</th>
                   </tr>
                 </thead>
-                {patients.map((patient) => (
+                {patients.rows.map((patient) => (
                   <PatientItem key={patient.id} patient={patient} />
                 ))}
               </table>
