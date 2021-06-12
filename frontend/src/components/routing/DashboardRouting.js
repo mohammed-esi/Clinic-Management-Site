@@ -9,6 +9,12 @@ import {
   PatientFormPage,
   AppointmentsPage,
   AppointmentFormPage,
+  MedicamentsPage,
+  ConsultationsPage,
+  ChooseAppointmentFormPage,
+  ConsultationFormPage,
+  CreatePrescriptionFormPage,
+  PrescriptedMedicamentFormPage,
 } from '../dashboard/PageListAsync';
 import DashboardLayout from '../dashboard/DashboardLayout';
 
@@ -32,6 +38,32 @@ const DashboardRouting = ({ match: { path } }) => {
           exact
           path={`${path}/create_appointment`}
           component={AppointmentFormPage}
+        />
+        <Route exact path={`${path}/medicaments`} component={MedicamentsPage} />
+        <Route
+          exact
+          path={`${path}/consultations`}
+          component={ConsultationsPage}
+        />
+        <Route
+          exact
+          path={`${path}/choose_appointment`}
+          component={ChooseAppointmentFormPage}
+        />
+        <Route
+          exact
+          path={`${path}/create_consultation/:id`}
+          component={ConsultationFormPage}
+        />
+        <Route
+          exact
+          path={`${path}/create_prescription/:id`}
+          component={CreatePrescriptionFormPage}
+        />
+        <Route
+          exact
+          path={`${path}/create_prescribed_medicament/:id`}
+          component={PrescriptedMedicamentFormPage}
         />
       </Switch>
     </DashboardLayout>
