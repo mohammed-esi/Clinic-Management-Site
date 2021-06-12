@@ -8,7 +8,11 @@ const PrescribedMedicament = require('../models/PrescribedMedicament');
 // @desc  Get prescribed medicaments
 // @access  Private
 const getPrescribedMedicaments = async (req, res, next) => {
+  console.log(req.params.id);
   const prescribed_medicaments = await PrescribedMedicament.findAll({
+    where: {
+      prescription_id: req.params.id,
+    },
     order: [['createdAt', 'DESC']],
     include: [{ model: Medicament }],
   });

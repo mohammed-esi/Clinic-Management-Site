@@ -13,13 +13,15 @@ const {
   deletePrecrebedMedicament,
 } = require('../controllers/prescribed_medicaments');
 
-router.get('/', authMiddleware, getPrescribedMedicaments);
 router.post(
   '/:medicamentId/:prescriptionId',
   authMiddleware,
   [check('dosage', 'dosge is required!').notEmpty()],
   createPrescribedMedicament
 );
-router.delete('/:id', authMiddleware, deletePrecrebedMedicament);
+router
+  .route('/:id')
+  .get(authMiddleware, getPrescribedMedicaments)
+  .delete(authMiddleware, deletePrecrebedMedicament);
 
 module.exports = router;
