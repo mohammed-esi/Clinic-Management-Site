@@ -8,11 +8,17 @@ import AppointmentItem from './AppointmentItem';
 
 function Appointments({
   getAppointments,
-  appointment: { appointments, loading },
+  appointment: {
+    appointments: { appointments },
+    loading,
+  },
 }) {
   useEffect(() => {
     getAppointments();
   }, [getAppointments]);
+
+  console.log(appointments);
+
   return (
     <>
       {!loading ? (
@@ -29,7 +35,7 @@ function Appointments({
             <h1>All Appointments</h1>
           </div>
           <div className='row'>
-            {appointments.length > 0 ? (
+            {appointments.rows.length > 0 ? (
               <table className='table'>
                 <thead>
                   <tr>
@@ -39,7 +45,7 @@ function Appointments({
                     <th scope='col'>Hour</th>
                   </tr>
                 </thead>
-                {appointments.map((appointment) => (
+                {appointments.rows.map((appointment) => (
                   <AppointmentItem
                     key={appointment.id}
                     appointment={appointment}
