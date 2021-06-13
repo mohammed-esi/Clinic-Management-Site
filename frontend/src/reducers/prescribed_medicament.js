@@ -2,6 +2,7 @@ import {
   GET_PRESCRIBED_MEDICAMENTS,
   CREATE_PRESCIBED_MEDICAMENT,
   PRESCIRBED_MEDICAMENT_ERROR,
+  DELETE_PRESCIRBED_MEDICAMENT,
 } from '../utils/constant';
 
 const initialState = {
@@ -25,6 +26,14 @@ function prescribedMedicamentReducer(state = initialState, action) {
       return {
         ...state,
         prescribed_medicaments: [payload, ...state.prescribed_medicaments],
+        loading: false,
+      };
+    case DELETE_PRESCIRBED_MEDICAMENT:
+      return {
+        ...state,
+        prescribed_medicaments: state.prescribed_medicaments.filter(
+          (prescribed_medicament) => prescribed_medicament.id !== payload
+        ),
         loading: false,
       };
     case PRESCIRBED_MEDICAMENT_ERROR:
