@@ -5,12 +5,20 @@ import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getAppointmentById } from '../../actinos/appointment';
-import { createConsultation } from '../../actinos/consultation';
+import {
+  createConsultation,
+  getConsultationById,
+  updateConsultation,
+} from '../../actinos/consultation';
 
 function ConsultationForm({
   getAppointmentById,
   createConsultation,
+  getConsultationById,
+  updateConsultation,
   match,
+  history,
+  consultation: { consultation },
   appointment: { appointment, loading },
 }) {
   // Get Querys
@@ -25,15 +33,19 @@ function ConsultationForm({
     prescription_id: query.get('prescription_id')
       ? parseInt(query.get('prescription_id'))
       : null,
-    motif: '',
-    observation: '',
+    motif: consultation ? consultation.motif : '',
+    observation: consultation ? consultation.observation : '',
   });
 
   const { motif, observation } = formData;
 
   useEffect(() => {
-    getAppointmentById(match.params.id);
-  }, [getAppointmentById, match.params.id]);
+    if (query.get('edit')) {
+      getConsultationById(match.params.id);
+    } else {
+      getAppointmentById(match.params.id);
+    }
+  }, [getAppointmentById, getConsultationById, consultation, match.params.id]);
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,38 +55,70 @@ function ConsultationForm({
     if (motif === '' || observation === '') {
       return toast.error('Fill all fields!');
     }
-    createConsultation(formData);
+    if (query.get('edit')) {
+      updateConsultation(match.params.id, formData);
+      toast.success(`Update successfuly!`);
+    } else {
+      createConsultation(formData);
+      toast.success(
+        `Create Consultation with ${appointment.patient.first_name} succress!`
+      );
+      localStorage.removeItem('app_id');
+    }
     setFormData({
       motif: '',
       observation: '',
     });
-    toast.success(
-      `Create Consultation with ${appointment.patient.first_name} succress!`
-    );
-    localStorage.removeItem('app_id');
+    setTimeout(() => {
+      history.push('/dashboard/consultations');
+    }, 2000);
   };
 
   return (
     <div className='container'>
       <div className='d-flex my-3'>
-        {loading ? (
-          <p>Loading ...</p>
-        ) : (
+        {query.get('edit') ? (
           <>
-            {appointment && (
+            {consultation && (
               <>
                 <div className='mr-auto'>
                   Patient :{' '}
                   <b>
-                    {appointment.patient.first_name}{' '}
-                    {appointment.patient.last_name}
+                    {consultation.appointment.patient.first_name}{' '}
+                    {consultation.appointment.patient.last_name}
                   </b>{' '}
-                  / Age : <b>{appointment.patient.age}</b> years old
+                  / Age : <b>{consultation.appointment.patient.age}</b> years
+                  old
                 </div>
                 <div className=''>
-                  Date: <b>{appointment.appointment_date}</b> / Hour:{' '}
-                  <b>{appointment.appointment_hour}</b>
+                  Date: <b>{consultation.appointment.appointment_date}</b> /
+                  Hour: <b>{consultation.appointment.appointment_hour}</b>
                 </div>
+              </>
+            )}
+          </>
+        ) : (
+          <>
+            {loading ? (
+              <p>Loading ...</p>
+            ) : (
+              <>
+                {appointment && (
+                  <>
+                    <div className='mr-auto'>
+                      Patient :{' '}
+                      <b>
+                        {appointment.patient.first_name}{' '}
+                        {appointment.patient.last_name}
+                      </b>{' '}
+                      / Age : <b>{appointment.patient.age}</b> years old
+                    </div>
+                    <div className=''>
+                      Date: <b>{appointment.appointment_date}</b> / Hour:{' '}
+                      <b>{appointment.appointment_hour}</b>
+                    </div>
+                  </>
+                )}
               </>
             )}
           </>
@@ -82,15 +126,19 @@ function ConsultationForm({
       </div>
       <div className='card'>
         <div className='card-body'>
-          <div className='d-flex mb-5'>
-            <h4 className='mr-auto'>Create Consultation</h4>
-            <Link
-              className='btn btn-info'
-              to={`/dashboard/create_prescription/${match.params.id}`}
-            >
-              Add Prescription
-            </Link>
-          </div>
+          {query.get('edit') ? (
+            <h4 className='mb-5'>Edit Consultation</h4>
+          ) : (
+            <div className='d-flex mb-5'>
+              <h4 className='mr-auto'>Create Consultation</h4>
+              <Link
+                className='btn btn-info'
+                to={`/dashboard/create_prescription/${match.params.id}`}
+              >
+                Add Prescription
+              </Link>
+            </div>
+          )}
           <form onSubmit={onSubmit}>
             <div className='form-group'>
               <h4>Motif</h4>
@@ -116,7 +164,11 @@ function ConsultationForm({
               <input
                 type='submit'
                 className='btn btn-primary'
-                value={'Create Consultation'}
+                value={
+                  query.get('edit')
+                    ? 'Edit Consultation'
+                    : 'Create Consultation'
+                }
               />
               <Link to='/dashboard' className='btn btn-info ml-2'>
                 Come Back
@@ -133,14 +185,20 @@ function ConsultationForm({
 ConsultationForm.propTypes = {
   getAppointmentById: PropTypes.func.isRequired,
   createConsultation: PropTypes.func.isRequired,
+  getConsultationById: PropTypes.func.isRequired,
+  updateConsultation: PropTypes.func.isRequired,
   appointment: PropTypes.object.isRequired,
+  consultation: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   appointment: state.appointment,
+  consultation: state.consultation,
 });
 
 export default connect(mapStateToProps, {
   getAppointmentById,
   createConsultation,
+  getConsultationById,
+  updateConsultation,
 })(withRouter(ConsultationForm));
