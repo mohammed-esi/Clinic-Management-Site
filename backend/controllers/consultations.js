@@ -77,26 +77,37 @@ const updateConsultation = async (req, res, next) => {
   const { motif, observation } = req.body;
 
   //Build medicament object
-  const consultaionFields = {};
-  if (motif) consultaionFields.motif = motif;
-  if (observation) consultaionFields.observation = observation;
+  const consultationField = {};
+  if (motif) consultationField.motif = motif;
+  if (observation) consultationField.observation = observation;
 
-  let consultaion = await Consultation.findOne({
+  let consultation = await Consultation.findOne({
     where: { id: req.params.id },
   });
 
   // Check Medicament Exist or not
-  if (!consultaion) {
+  if (!consultation) {
     return res.json({ code_status: 400, msg: 'Consultation not found!' });
   }
 
-  consultaion = await Consultation.update(consultaionFields, {
+  consultation = await Consultation.update(consultationField, {
     where: {
       id: req.params.id,
     },
   });
 
-  res.json({ status_code: 200, message: 'Updated successfuly!' });
+  // To get new consultation
+  consultation = await Consultation.findOne({
+    where: {
+      id: req.params.id,
+    },
+    include: [
+      { model: Appointment, include: [{ model: Patient }] },
+      { model: Prescription },
+    ],
+  });
+
+  res.json(consultation);
 };
 
 // @route DELETE /api/consultation/:id
