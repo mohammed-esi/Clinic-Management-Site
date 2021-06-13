@@ -41,7 +41,7 @@ function PrescribedMedicaments({
         <Link
           to={`/dashboard/create_consultation/${localStorage.getItem(
             'app_id'
-          )}/?prescription_id=${match.params.id}`}
+          )}?prescription_id=${match.params.id}`}
           className='btn btn-info'
         >
           Done
