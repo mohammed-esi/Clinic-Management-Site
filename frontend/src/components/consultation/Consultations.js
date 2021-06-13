@@ -2,17 +2,23 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getConsultations } from '../../actinos/consultation';
+import {
+  clearConsultation,
+  getConsultations,
+} from '../../actinos/consultation';
 
 import ConsultationItem from './ConsultationItem';
 
 function Consultations({
   getConsultations,
-  consultation: { consultations, loading },
+  consultation: { consultations, loading, consultation },
 }) {
   useEffect(() => {
+    if (consultation) {
+      clearConsultation();
+    }
     getConsultations();
-  }, [getConsultations]);
+  }, [getConsultations, clearConsultation]);
 
   return (
     <>
@@ -37,8 +43,9 @@ function Consultations({
                     <th scope='col'>First Name</th>
                     <th scope='col'>Last Name</th>
                     <th scope='col'>Date</th>
-                    <th scope='col'>Obsrvation</th>
+                    <th scope='col'>Observation</th>
                     <th scope='col'>Motif</th>
+                    <th scope='col'>Actions</th>
                   </tr>
                 </thead>
                 {consultations.map((consultation) => (
@@ -62,6 +69,7 @@ function Consultations({
 
 Consultations.propTypes = {
   getConsultations: PropTypes.func.isRequired,
+  clearConsultation: PropTypes.func.isRequired,
   consultation: PropTypes.object.isRequired,
 };
 
@@ -69,4 +77,7 @@ const mapStateToProps = (state) => ({
   consultation: state.consultation,
 });
 
-export default connect(mapStateToProps, { getConsultations })(Consultations);
+export default connect(mapStateToProps, {
+  getConsultations,
+  clearConsultation,
+})(Consultations);
