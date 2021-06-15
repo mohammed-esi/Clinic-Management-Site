@@ -10,6 +10,7 @@ import {
   AppointmentsPage,
   AppointmentFormPage,
   MedicamentsPage,
+  MedicamentFormPage,
   ConsultationsPage,
   ChooseAppointmentFormPage,
   ConsultationFormPage,
@@ -64,6 +65,11 @@ const DashboardRouting = ({ match: { path } }) => {
           exact
           path={`${path}/create_prescribed_medicament/:id`}
           component={PrescriptedMedicamentFormPage}
+        />
+        <Route
+          exact
+          path={`${path}/create_medicament/`}
+          component={MedicamentFormPage}
         />
       </Switch>
     </DashboardLayout>

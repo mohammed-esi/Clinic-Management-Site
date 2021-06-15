@@ -10,6 +10,7 @@ const AppointmentForm = lazy(() => import('../appointment/AppointmentFrom'));
 
 // Page Medicaments
 const Medicaments = lazy(() => import('../medicament/Medicaments'));
+const MedicamentForm = lazy(() => import('../medicament/MedicamentForm'));
 
 // Page Prescription
 const CreatePrescriptionForm = lazy(() =>
@@ -59,6 +60,11 @@ export const AppointmentFormPage = () => (
 export const MedicamentsPage = () => (
   <Suspense fallback={<div>Loading...</div>}>
     <Medicaments />
+  </Suspense>
+);
+export const MedicamentFormPage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <MedicamentForm />
   </Suspense>
 );
 export const ConsultationsPage = () => (
