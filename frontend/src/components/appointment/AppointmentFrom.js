@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addAppointment, getAppointments } from '../../actinos/appointment';
+import {
+  addAppointment,
+  getAppointmentById,
+  updateAppointment,
+} from '../../actinos/appointment';
 
 import SelectPatientInput from '../patient/SelectPatientInput';
 
-function AppointmentForm({ addAppointment }) {
+function AppointmentForm({
+  addAppointment,
+  getAppointmentById,
+  updateAppointment,
+  appointment: { appointment },
+  history,
+}) {
+  // Get Querys
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+
+  let query = useQuery();
+
   const [formData, setFormData] = useState({
     id_patient: '',
     appointment_date: '',
@@ -17,18 +34,39 @@ function AppointmentForm({ addAppointment }) {
 
   const { id_patient, appointment_date, appointment_hour } = formData;
 
+  useEffect(() => {
+    if (appointment) {
+      return setFormData({
+        id_patient: appointment.patient_id,
+        appointment_date: appointment.appointment_date,
+        appointment_hour: appointment.appointment_hour,
+      });
+    }
+    if (query.get('appointment_id')) {
+      getAppointmentById(parseInt(query.get('appointment_id')));
+    }
+  }, [getAppointmentById, appointment]);
+
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addAppointment(formData);
+    if (query.get('appointment_id')) {
+      updateAppointment(parseInt(query.get('appointment_id')), formData);
+      toast.info('Update date!');
+      setTimeout(() => {
+        history.push('/dashboard/appointments');
+      }, 2000);
+    } else {
+      addAppointment(formData);
+      toast.success('Create new date!');
+    }
     setFormData({
       id_patient: '',
       appointment_date: '',
       appointment_hour: '',
     });
-    toast.success('Create new date!');
   };
   return (
     <div className='container'>
@@ -75,7 +113,7 @@ function AppointmentForm({ addAppointment }) {
               <input
                 type='submit'
                 className='btn btn-primary'
-                value={'Create'}
+                value={query.get('appointment_id') ? 'Edit' : 'Create'}
               />
               <Link to='/dashboard' className='btn btn-info ml-2'>
                 Come Back
@@ -91,8 +129,17 @@ function AppointmentForm({ addAppointment }) {
 
 AppointmentForm.propTypes = {
   addAppointment: PropTypes.func.isRequired,
+  getAppointmentById: PropTypes.func.isRequired,
+  updateAppointment: PropTypes.func.isRequired,
+  appointment: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  appointment: state.appointment,
+});
 
-export default connect(mapStateToProps, { addAppointment })(AppointmentForm);
+export default connect(mapStateToProps, {
+  addAppointment,
+  getAppointmentById,
+  updateAppointment,
+})(withRouter(AppointmentForm));
