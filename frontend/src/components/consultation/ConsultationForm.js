@@ -33,13 +33,20 @@ function ConsultationForm({
     prescription_id: query.get('prescription_id')
       ? parseInt(query.get('prescription_id'))
       : null,
-    motif: consultation ? consultation.motif : '',
-    observation: consultation ? consultation.observation : '',
+    motif: '',
+    observation: '',
   });
 
   const { motif, observation } = formData;
 
   useEffect(() => {
+    if (consultation) {
+      return setFormData({
+        ...formData,
+        motif: consultation.motif,
+        observation: consultation.observation,
+      });
+    }
     if (query.get('edit')) {
       getConsultationById(match.params.id);
     } else {

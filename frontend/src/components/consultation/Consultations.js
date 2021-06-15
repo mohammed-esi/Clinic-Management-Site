@@ -11,14 +11,15 @@ import ConsultationItem from './ConsultationItem';
 
 function Consultations({
   getConsultations,
+  clearConsultation,
   consultation: { consultations, loading, consultation },
 }) {
   useEffect(() => {
-    if (consultation) {
+    if (!loading && consultation) {
       clearConsultation();
     }
     getConsultations();
-  }, [getConsultations, clearConsultation]);
+  }, [getConsultations]);
 
   return (
     <>
