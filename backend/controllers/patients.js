@@ -1,103 +1,17 @@
 const { validationResult } = require('express-validator');
 const Patient = require('../models/Patient');
 const User = require('../models/User');
-const Op = require('sequelize').Op;
 
 // @route GET /api/patients
 // @desc  Get patients
 // @access  Private
 const getAndFilterPatients = async (req, res, next) => {
-  let page = parseInt(req.query.page) || 1;
-  let limit = parseInt(req.query.size) || 5;
-  let filterPatients = req.query.filterPatients || 'false';
-  let age = parseInt(req.query.age);
-  let first_name = req.query.first_name;
-  let last_name = req.query.last_name;
-  let city = req.query.city;
-
-  const offset = page === 1 ? 0 : (page - 1) * limit;
-
-  console.log('offset = ' + offset);
-
-  let patients = {};
-
-  // Get filter
-  if (filterPatients === 'true') {
-    // Filter by Age
-    if (age) {
-      patients = await Patient.findAndCountAll({
-        where: {
-          [Op.or]: [
-            {
-              age: { [Op.like]: `%${age}%` },
-            },
-          ],
-        },
-        include: [{ model: User }],
-        limit: limit,
-        offset: offset,
-      });
-    }
-    // Filter by First Name
-    if (first_name) {
-      patients = await Patient.findAndCountAll({
-        where: {
-          [Op.or]: [
-            {
-              first_name: { [Op.like]: `%${first_name}%` },
-            },
-          ],
-        },
-        include: [{ model: User }],
-        limit: limit,
-        offset: offset,
-      });
-    }
-    // Filter by Last Name
-    if (last_name) {
-      patients = await Patient.findAndCountAll({
-        where: {
-          [Op.or]: [
-            {
-              last_name: { [Op.like]: `%${last_name}%` },
-            },
-          ],
-        },
-        include: [{ model: User }],
-        limit: limit,
-        offset: offset,
-      });
-    }
-    if (city) {
-      // Filter by City
-      patients = await Patient.findAndCountAll({
-        where: {
-          [Op.or]: [
-            {
-              city: { [Op.like]: `%${city}%` },
-            },
-          ],
-        },
-        include: [{ model: User }],
-        limit: limit,
-        offset: offset,
-      });
-    }
-  } else {
-    // Without filtering
-    patients = await Patient.findAndCountAll({
-      order: [['createdAt', 'DESC']],
-      include: [{ model: User }],
-      limit: limit,
-      offset: offset,
-    });
-  }
-
-  res.json({
-    patients,
-    page,
-    pages: Math.ceil(patients.count / limit),
+  const patients = await Patient.findAll({
+    order: [['createdAt', 'DESC']],
+    include: [{ model: User }],
   });
+
+  res.json(patients);
 };
 
 // @route POST /api/patients
@@ -152,11 +66,12 @@ const deletePatient = async (req, res, next) => {
       where: { id: req.params.id },
     });
 
-    // Check Patient Exist or not
     if (patient === 0) {
-      return res.json({ code_status: 400, msg: 'Patient not found!' });
+      return res.status(404).json({
+        msg: 'This patient does not exist!',
+      });
     }
-    res.json({ code_status: 200, msg: 'The service removed!' });
+    res.json({ code_status: 200, msg: 'The patient removed!' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error!');
@@ -204,7 +119,11 @@ const updatePatient = async (req, res, next) => {
     },
   });
 
-  res.json({ status_code: 200, message: 'Updated successfuly!' });
+  patient = await Patient.findOne({
+    where: { id: req.params.id },
+  });
+
+  res.json(patient);
 };
 
 // @route GET /api/patients/:id
