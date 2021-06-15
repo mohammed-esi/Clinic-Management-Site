@@ -4,10 +4,7 @@ import PropTypes from 'prop-types';
 import { getAppointments } from '../../actinos/appointment';
 
 const SelectAppointmentInput = ({
-  appointment: {
-    appointments: { appointments },
-    loading,
-  },
+  appointment: { appointments, loading },
   getAppointments,
 }) => {
   useEffect(() => {
@@ -16,8 +13,8 @@ const SelectAppointmentInput = ({
   return (
     <>
       {!loading &&
-        appointments.rows.length &&
-        appointments.rows.map((a) => (
+        appointments.length &&
+        appointments.map((a) => (
           <option key={a.id} value={a.id}>
             Patient: {a.patient.first_name} {a.patient.last_name}, Date:{' '}
             {a.appointment_date}, Hour:
