@@ -8,14 +8,14 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 // Controllers
 const {
-  getAndFilterAppointments,
+  getAppointments,
   createAppointment,
   deleteAppointment,
   updateAppointment,
   getAppointment,
 } = require('../controllers/appointments');
 
-router.get('/', authMiddleware, getAndFilterAppointments);
+router.get('/', authMiddleware, getAppointments);
 router.post(
   '/:patientId',
   authMiddleware,
