@@ -62,7 +62,7 @@ function consultationReducer(state = initialState, action) {
     case CLEAR_CONSULTATION:
       return {
         ...state,
-        consultation: {},
+        consultation: null,
       };
     default:
       return state;
