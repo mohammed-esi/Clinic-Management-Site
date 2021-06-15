@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addPatient } from '../../actinos/patient';
+import { addPatient, getPatientById } from '../../actinos/patient';
+import { updatePatient } from '../../actinos/patient';
 
-function PtientForm({ addPatient, error }) {
+function PtientForm({
+  addPatient,
+  getPatientById,
+  patient: { patient, error },
+  updatePatient,
+  history,
+}) {
+  // Get Querys
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+
+  let query = useQuery();
+
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -29,12 +43,40 @@ function PtientForm({ addPatient, error }) {
     blood_group,
   } = formData;
 
+  useEffect(() => {
+    if (patient) {
+      return setFormData({
+        first_name: patient ? patient.first_name : '',
+        last_name: patient ? patient.last_name : '',
+        age: patient ? patient.age : 0,
+        sex: patient ? patient.sex : '',
+        city: patient ? patient.city : '',
+        email: patient ? patient.email : '',
+        phone_number: patient ? patient.phone_number : '',
+        blood_group: patient ? patient.blood_group : '',
+      });
+    }
+    if (query.get('patient_id')) {
+      getPatientById(parseInt(query.get('patient_id')));
+    }
+  }, [getPatientById, patient]);
+
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addPatient(formData);
+    if (error) return toast.error(error);
+    if (query.get('patient_id')) {
+      updatePatient(parseInt(query.get('patient_id')), formData);
+      toast.info('Update successfuly');
+      setTimeout(() => {
+        history.push('/dashboard/patients');
+      }, 2000);
+    } else {
+      addPatient(formData);
+      toast.success('Patient has been created !');
+    }
     setFormData({
       first_name: '',
       last_name: '',
@@ -45,7 +87,6 @@ function PtientForm({ addPatient, error }) {
       phone_number: '',
       blood_group: '',
     });
-    toast.success('Patient has been created !');
   };
   return (
     <div className='container'>
@@ -156,7 +197,7 @@ function PtientForm({ addPatient, error }) {
               <input
                 type='submit'
                 className='btn btn-primary'
-                value={'Create'}
+                value={query.get('patient_id') ? 'Edit' : 'Create'}
               />
               <Link to='/dashboard' className='btn btn-info ml-2'>
                 Come Back
@@ -172,11 +213,18 @@ function PtientForm({ addPatient, error }) {
 
 PtientForm.propTypes = {
   addPatient: PropTypes.func.isRequired,
+  getPatientById: PropTypes.func.isRequired,
+  updatePatient: PropTypes.func.isRequired,
   error: PropTypes.object,
+  patient: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  error: state.patient.error,
+  patient: state.patient,
 });
 
-export default connect(mapStateToProps, { addPatient })(PtientForm);
+export default connect(mapStateToProps, {
+  addPatient,
+  getPatientById,
+  updatePatient,
+})(withRouter(PtientForm));
