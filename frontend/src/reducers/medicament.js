@@ -1,4 +1,8 @@
-import { GET_MEDICAMENTS, MEDICAMENT_ERROR } from '../utils/constant';
+import {
+  CREATE_MEDICAMENT,
+  GET_MEDICAMENTS,
+  MEDICAMENT_ERROR,
+} from '../utils/constant';
 
 const initialState = {
   medicaments: [],
@@ -15,6 +19,12 @@ function medicamentReducer(state = initialState, action) {
       return {
         ...state,
         medicaments: payload,
+        loading: false,
+      };
+    case CREATE_MEDICAMENT:
+      return {
+        ...state,
+        medicaments: [payload, ...state.medicaments],
         loading: false,
       };
     case MEDICAMENT_ERROR:
