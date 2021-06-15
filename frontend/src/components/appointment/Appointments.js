@@ -2,22 +2,23 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAppointments } from '../../actinos/appointment';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { getAppointments, clearAppointment } from '../../actinos/appointment';
 
 import AppointmentItem from './AppointmentItem';
 
 function Appointments({
   getAppointments,
-  appointment: {
-    appointments: { appointments },
-    loading,
-  },
+  clearAppointment,
+  appointment: { appointments, appointment, loading },
 }) {
   useEffect(() => {
+    if (!loading && appointment) {
+      clearAppointment();
+    }
     getAppointments();
   }, [getAppointments]);
-
-  console.log(appointments);
 
   return (
     <>
@@ -35,23 +36,27 @@ function Appointments({
             <h1>All Appointments</h1>
           </div>
           <div className='row'>
-            {appointments.rows.length > 0 ? (
-              <table className='table'>
-                <thead>
-                  <tr>
-                    <th scope='col'>First Name</th>
-                    <th scope='col'>Last Name</th>
-                    <th scope='col'>Date</th>
-                    <th scope='col'>Hour</th>
-                  </tr>
-                </thead>
-                {appointments.rows.map((appointment) => (
-                  <AppointmentItem
-                    key={appointment.id}
-                    appointment={appointment}
-                  />
-                ))}
-              </table>
+            {appointments.length > 0 ? (
+              <>
+                <table className='table'>
+                  <thead>
+                    <tr>
+                      <th scope='col'>First Name</th>
+                      <th scope='col'>Last Name</th>
+                      <th scope='col'>Date</th>
+                      <th scope='col'>Hour</th>
+                      <th scope='col'>actions</th>
+                    </tr>
+                  </thead>
+                  {appointments.map((appointment) => (
+                    <AppointmentItem
+                      key={appointment.id}
+                      appointment={appointment}
+                    />
+                  ))}
+                </table>
+                <ToastContainer />
+              </>
             ) : (
               <p>There are no appointments</p>
             )}
@@ -66,6 +71,7 @@ function Appointments({
 
 Appointments.propTypes = {
   getAppointments: PropTypes.func.isRequired,
+  clearAppointment: PropTypes.func.isRequired,
   appointment: PropTypes.object.isRequired,
 };
 
@@ -73,4 +79,6 @@ const mapStateToProps = (state) => ({
   appointment: state.appointment,
 });
 
-export default connect(mapStateToProps, { getAppointments })(Appointments);
+export default connect(mapStateToProps, { getAppointments, clearAppointment })(
+  Appointments
+);
