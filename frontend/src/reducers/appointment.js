@@ -3,6 +3,9 @@ import {
   APPOINTMENT_ERROR,
   CREATE_APPOINTMENT,
   GET_APPOINTMENT_BY_ID,
+  DELETE_APPOINTMENT,
+  CLEAR_APPOINTMENT,
+  UPDATE_APPOINTMENT,
 } from '../utils/constant';
 
 const initialState = {
@@ -33,6 +36,32 @@ function appointmentReducer(state = initialState, action) {
         ...state,
         appointments: [payload, ...state.appointments],
         loading: false,
+      };
+    case DELETE_APPOINTMENT:
+      return {
+        ...state,
+        appointments: state.appointments.filter(
+          (appointment) => appointment.id !== payload
+        ),
+        loading: false,
+      };
+    case UPDATE_APPOINTMENT:
+      return {
+        ...state,
+        appointments: state.appointments.filter((appointment) =>
+          appointment.id === payload.id
+            ? {
+                patient_id: payload.patient_id,
+                appointment_date: payload.appointment_date,
+                appointment_hour: payload.appointment_hour,
+              }
+            : null
+        ),
+      };
+    case CLEAR_APPOINTMENT:
+      return {
+        ...state,
+        appointment: null,
       };
     case APPOINTMENT_ERROR:
       return {

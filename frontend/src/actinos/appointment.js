@@ -4,6 +4,9 @@ import {
   APPOINTMENT_ERROR,
   CREATE_APPOINTMENT,
   GET_APPOINTMENT_BY_ID,
+  DELETE_APPOINTMENT,
+  CLEAR_APPOINTMENT,
+  UPDATE_APPOINTMENT,
 } from '../utils/constant';
 
 // Get Appointments
@@ -44,6 +47,41 @@ export const addAppointment = (formData) => async (dispatch) => {
   }
 };
 
+// Delete Appointment
+export const deleteAppointment = (id) => async (dispatch) => {
+  try {
+    await api.delete(`/api/appointments/${id}`);
+
+    dispatch({
+      type: DELETE_APPOINTMENT,
+      payload: id,
+    });
+  } catch (err) {
+    dispatch({
+      type: APPOINTMENT_ERROR,
+      payload: err.message,
+    });
+  }
+};
+
+// Update Appointment
+export const updateAppointment = (id, formData) => async (dispatch) => {
+  try {
+    const res = await api.put(`/api/appointments/${id}`, formData);
+    console.log(res.data);
+
+    dispatch({
+      type: UPDATE_APPOINTMENT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: APPOINTMENT_ERROR,
+      payload: err.message,
+    });
+  }
+};
+
 // Get Appointment By Id
 export const getAppointmentById = (id) => async (dispatch) => {
   try {
@@ -60,3 +98,6 @@ export const getAppointmentById = (id) => async (dispatch) => {
     });
   }
 };
+
+// Clear Appointment
+export const clearAppointment = () => ({ type: CLEAR_APPOINTMENT });
