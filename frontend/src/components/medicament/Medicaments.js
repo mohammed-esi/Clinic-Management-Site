@@ -17,7 +17,7 @@ function Medicaments({ getMedicaments, medicament: { medicaments, loading } }) {
         <div className='container my-5'>
           <div className='row my-5'>
             <Link
-              to='/dashboard/create_appointment'
+              to='/dashboard/create_medicament'
               className='btn btn-primary btn-block'
             >
               Create Medicament
@@ -35,6 +35,7 @@ function Medicaments({ getMedicaments, medicament: { medicaments, loading } }) {
                     <th scope='col'>Doctor / Secretary</th>
                     <th scope='col'>Name</th>
                     <th scope='col'>Date</th>
+                    <th scope='col'>Action</th>
                   </tr>
                 </thead>
                 {medicaments.map((medicament) => (
