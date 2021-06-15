@@ -36,9 +36,14 @@ const createMedicament = async (req, res, next) => {
       msg: 'This medicament already added!',
     });
 
-  const medicament = await Medicament.create({
+  let medicament = await Medicament.create({
     name,
     user_id: req.user.id,
+  });
+
+  medicament = await Medicament.findOne({
+    where: { id: medicament.id },
+    include: [{ model: User }],
   });
 
   res.json(medicament);
