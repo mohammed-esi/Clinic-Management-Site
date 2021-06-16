@@ -95,7 +95,11 @@ const updateMedicament = async (req, res, next) => {
     },
   });
 
-  res.json({ status_code: 200, message: 'Updated successfuly!' });
+  medicament = await Medicament.findOne({
+    where: { id: req.params.id },
+  });
+
+  res.json(medicament);
 };
 
 // @route GET /api/medicaments/:id
