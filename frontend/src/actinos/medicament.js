@@ -2,9 +2,13 @@ import api from '../utils/api';
 import {
   CLEAR_MEDICAMENT,
   CREATE_MEDICAMENT,
+  DELETE_MEDICAMENT,
   GET_MEDICAMENTS,
   GET_MEDICAMENT_BY_ID,
   MEDICAMENT_ERROR,
+  UPDATE_MEDICAMENT,
+  FILTERED_MEDICAMENTS,
+  CLEAR_FILTER_MEDICAMENTS,
 } from '../utils/constant';
 
 // Get Medicaments
@@ -46,7 +50,6 @@ export const getMeidcamentById = (id) => async (dispatch) => {
 export const createMedicament = (formData) => async (dispatch) => {
   try {
     const res = await api.post(`/api/medicaments/`, formData);
-    console.log(res.data);
 
     dispatch({
       type: CREATE_MEDICAMENT,
@@ -64,10 +67,10 @@ export const createMedicament = (formData) => async (dispatch) => {
 // Delete Medicament
 export const deleteMedicament = (id) => async (dispatch) => {
   try {
-    await api.detele(`/api/medicaments/${id}`);
+    await api.delete(`/api/medicaments/${id}`);
 
     dispatch({
-      type: CREATE_MEDICAMENT,
+      type: DELETE_MEDICAMENT,
       payload: id,
     });
   } catch (err) {
@@ -85,10 +88,11 @@ export const updateMedicament = (id, formData) => async (dispatch) => {
     const res = await api.put(`/api/medicaments/${id}`, formData);
 
     dispatch({
-      type: CREATE_MEDICAMENT,
+      type: UPDATE_MEDICAMENT,
       payload: res.data,
     });
   } catch (err) {
+    console.log(err);
     dispatch({
       type: MEDICAMENT_ERROR,
       payload: err.message,
@@ -96,5 +100,13 @@ export const updateMedicament = (id, formData) => async (dispatch) => {
   }
 };
 
-// Clear Appointment
+// Clear Meidcament
 export const clearMeidcament = () => ({ type: CLEAR_MEDICAMENT });
+
+// Fiter Medicament
+export const filterMedicaments = (text) => (dispatch) => {
+  dispatch({ type: FILTERED_MEDICAMENTS, payload: text });
+};
+
+// Clear filtered
+export const clearFilter = () => ({ type: CLEAR_FILTER_MEDICAMENTS });

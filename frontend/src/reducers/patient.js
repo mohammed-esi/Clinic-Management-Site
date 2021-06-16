@@ -6,10 +6,13 @@ import {
   GET_PATIENT_BY_ID,
   CLEAR_PATIENT,
   UPDATE_PATIENT,
+  FILTERED_PATIENTS,
+  CLEAR_FILTER_PATIENT,
 } from '../utils/constant';
 
 const initialState = {
   patients: [],
+  filtered: null,
   patient: null,
   loading: true,
   error: null,
@@ -70,6 +73,21 @@ function patientReducer(state = initialState, action) {
       return {
         ...state,
         patient: null,
+      };
+    case FILTERED_PATIENTS:
+      return {
+        ...state,
+        filtered: state.patients.filter((patient) => {
+          const regex = new RegExp(`${payload}`, 'gi');
+          return (
+            patient.first_name.match(regex) || patient.last_name.match(regex)
+          );
+        }),
+      };
+    case CLEAR_FILTER_PATIENT:
+      return {
+        ...state,
+        filtered: null,
       };
     default:
       return state;

@@ -7,6 +7,8 @@ import {
   GET_PATIENT_BY_ID,
   CLEAR_PATIENT,
   UPDATE_PATIENT,
+  FILTERED_PATIENTS,
+  CLEAR_FILTER_PATIENT,
 } from '../utils/constant';
 
 // Get Patients
@@ -48,7 +50,7 @@ export const addPatient = (formData) => async (dispatch) => {
 // Delete patient
 export const deletePatient = (id) => async (dispatch) => {
   try {
-    const res = await api.delete(`/api/patients/${id}`);
+    await api.delete(`/api/patients/${id}`);
 
     dispatch({
       type: DELETE_PATIENT,
@@ -101,3 +103,11 @@ export const updatePatient = (id, formData) => async (dispatch) => {
 
 // Clear Consultation
 export const clearPatient = () => ({ type: CLEAR_PATIENT });
+
+// Fiter patients
+export const filterPatients = (text) => (dispatch) => {
+  dispatch({ type: FILTERED_PATIENTS, payload: text });
+};
+
+// Clear filtered
+export const clearFilter = () => ({ type: CLEAR_FILTER_PATIENT });

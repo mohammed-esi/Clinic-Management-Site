@@ -6,10 +6,13 @@ import {
   DELETE_CONSULTATION,
   UPDATE_CONSULTATION,
   CLEAR_CONSULTATION,
+  FILTERED_CONSULTATIONS,
+  CLEAR_FILTER_CONSULTATION,
 } from '../utils/constant';
 
 const initialState = {
   consultations: [],
+  filtered: null,
   consultation: null,
   loading: true,
   error: {},
@@ -63,6 +66,22 @@ function consultationReducer(state = initialState, action) {
       return {
         ...state,
         consultation: null,
+      };
+    case FILTERED_CONSULTATIONS:
+      return {
+        ...state,
+        filtered: state.consultations.filter((consultation) => {
+          const regex = new RegExp(`${payload}`, 'gi');
+          return (
+            consultation.appointment.patient.first_name.match(regex) ||
+            consultation.appointment.patient.last_name.match(regex)
+          );
+        }),
+      };
+    case CLEAR_FILTER_CONSULTATION:
+      return {
+        ...state,
+        filtered: null,
       };
     default:
       return state;

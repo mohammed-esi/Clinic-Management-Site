@@ -4,9 +4,19 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { createMedicament } from '../../actinos/medicament';
+import {
+  createMedicament,
+  getMeidcamentById,
+  updateMedicament,
+} from '../../actinos/medicament';
 
-function MedicamentForm({ createMedicament }) {
+function MedicamentForm({
+  createMedicament,
+  getMeidcamentById,
+  updateMedicament,
+  history,
+  medicament: { medicament },
+}) {
   // Get Querys
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -20,29 +30,35 @@ function MedicamentForm({ createMedicament }) {
 
   const { name } = formData;
 
-  // useEffect(() => {
-  //   if (appointment) {
-  //     return setFormData({
-  //       id_patient: appointment.patient_id,
-  //       appointment_date: appointment.appointment_date,
-  //       appointment_hour: appointment.appointment_hour,
-  //     });
-  //   }
-  //   if (query.get('appointment_id')) {
-  //     getAppointmentById(parseInt(query.get('appointment_id')));
-  //   }
-  // }, [getAppointmentById, appointment]);
+  useEffect(() => {
+    if (medicament) {
+      return setFormData({
+        name: medicament.name,
+      });
+    }
+    if (query.get('medicament_id')) {
+      getMeidcamentById(parseInt(query.get('medicament_id')));
+    }
+  }, [getMeidcamentById, medicament]);
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createMedicament(formData);
+    if (query.get('medicament_id')) {
+      updateMedicament(parseInt(query.get('medicament_id')), formData);
+      toast.info('Updated successfuly!');
+      setTimeout(() => {
+        history.push('/dashboard/medicaments');
+      }, 2000);
+    } else {
+      createMedicament(formData);
+      toast.success('Create new medicament');
+    }
     setFormData({
       name: '',
     });
-    toast.success('Create new medicament');
   };
   return (
     <div className='container'>
@@ -64,7 +80,7 @@ function MedicamentForm({ createMedicament }) {
               <input
                 type='submit'
                 className='btn btn-primary'
-                value={'Create'}
+                value={query.get('medicament_id') ? 'Edit' : 'Create'}
               />
               <Link to='/dashboard' className='btn btn-info ml-2'>
                 Come Back
@@ -80,10 +96,17 @@ function MedicamentForm({ createMedicament }) {
 
 MedicamentForm.propTypes = {
   createMedicament: PropTypes.func.isRequired,
+  getMeidcamentById: PropTypes.func.isRequired,
+  updateMedicament: PropTypes.func.isRequired,
+  medicament: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  medicament: state.medicament,
+});
 
-export default connect(mapStateToProps, { createMedicament })(
-  withRouter(MedicamentForm)
-);
+export default connect(mapStateToProps, {
+  createMedicament,
+  getMeidcamentById,
+  updateMedicament,
+})(withRouter(MedicamentForm));

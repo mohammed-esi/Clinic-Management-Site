@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 import {
   clearConsultation,
@@ -8,11 +9,12 @@ import {
 } from '../../actinos/consultation';
 
 import ConsultationItem from './ConsultationItem';
+import FilterConsultations from './FilterConsultations';
 
 function Consultations({
   getConsultations,
   clearConsultation,
-  consultation: { consultations, loading, consultation },
+  consultation: { consultations, loading, consultation, filtered },
 }) {
   useEffect(() => {
     if (!loading && consultation) {
@@ -25,37 +27,81 @@ function Consultations({
     <>
       {!loading ? (
         <div className='container my-5'>
-          <div className='row my-5'>
-            <Link
-              to='/dashboard/choose_appointment'
-              className='btn btn-primary btn-block'
-            >
-              Create Consultation
-            </Link>
-          </div>
           <div className='row mb-4'>
             <h1>All Consultaions</h1>
           </div>
+          <FilterConsultations />
           <div className='row'>
             {consultations.length > 0 ? (
-              <table className='table'>
-                <thead>
-                  <tr>
-                    <th scope='col'>First Name</th>
-                    <th scope='col'>Last Name</th>
-                    <th scope='col'>Date</th>
-                    <th scope='col'>Observation</th>
-                    <th scope='col'>Motif</th>
-                    <th scope='col'>Actions</th>
-                  </tr>
-                </thead>
-                {consultations.map((consultation) => (
-                  <ConsultationItem
-                    key={consultation.id}
-                    consultation={consultation}
-                  />
-                ))}
-              </table>
+              <>
+                {filtered ? (
+                  <>
+                    {filtered.length > 0 ? (
+                      <>
+                        <table className='table'>
+                          <thead>
+                            <tr>
+                              <th scope='col'>First Name</th>
+                              <th scope='col'>Last Name</th>
+                              <th scope='col'>Date</th>
+                              <th scope='col'>Observation</th>
+                              <th scope='col'>Motif</th>
+                              <th scope='col'>Actions</th>
+                            </tr>
+                          </thead>
+                          {filtered.map((consultation) => (
+                            <ConsultationItem
+                              key={consultation.id}
+                              consultation={consultation}
+                            />
+                          ))}
+                        </table>
+                        <ToastContainer />
+                      </>
+                    ) : (
+                      <table className='table table-bordered'>
+                        <thead>
+                          <tr>
+                            <th scope='col'>First Name</th>
+                            <th scope='col'>Last Name</th>
+                            <th scope='col'>Date</th>
+                            <th scope='col'>Observation</th>
+                            <th scope='col'>Motif</th>
+                            <th scope='col'>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td colspan='6'>No result for this search!</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <table className='table'>
+                      <thead>
+                        <tr>
+                          <th scope='col'>First Name</th>
+                          <th scope='col'>Last Name</th>
+                          <th scope='col'>Date</th>
+                          <th scope='col'>Observation</th>
+                          <th scope='col'>Motif</th>
+                          <th scope='col'>Actions</th>
+                        </tr>
+                      </thead>
+                      {consultations.map((consultation) => (
+                        <ConsultationItem
+                          key={consultation.id}
+                          consultation={consultation}
+                        />
+                      ))}
+                    </table>
+                    <ToastContainer />
+                  </>
+                )}
+              </>
             ) : (
               <p>There are no medicaments</p>
             )}

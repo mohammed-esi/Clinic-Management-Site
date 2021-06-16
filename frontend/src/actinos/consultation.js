@@ -7,6 +7,8 @@ import {
   DELETE_CONSULTATION,
   UPDATE_CONSULTATION,
   CLEAR_CONSULTATION,
+  FILTERED_CONSULTATIONS,
+  CLEAR_FILTER_CONSULTATION,
 } from '../utils/constant';
 
 // Get Consultations
@@ -106,3 +108,11 @@ export const updateConsultation = (id, formData) => async (dispatch) => {
 
 // Clear Consultation
 export const clearConsultation = () => ({ type: CLEAR_CONSULTATION });
+
+// Fiter Medicament
+export const filterConsultations = (text) => (dispatch) => {
+  dispatch({ type: FILTERED_CONSULTATIONS, payload: text });
+};
+
+// Clear filtered
+export const clearFilter = () => ({ type: CLEAR_FILTER_CONSULTATION });

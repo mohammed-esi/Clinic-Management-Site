@@ -6,10 +6,13 @@ import {
   DELETE_APPOINTMENT,
   CLEAR_APPOINTMENT,
   UPDATE_APPOINTMENT,
+  FILTERED_APPOINTEMNTS,
+  CLEAR_FILTER_APPOINTEMNT,
 } from '../utils/constant';
 
 const initialState = {
   appointments: [],
+  filtered: null,
   appointment: null,
   loading: true,
   error: {},
@@ -68,6 +71,23 @@ function appointmentReducer(state = initialState, action) {
         ...state,
         error: payload,
         loading: false,
+      };
+
+    case FILTERED_APPOINTEMNTS:
+      return {
+        ...state,
+        filtered: state.appointments.filter((appointment) => {
+          const regex = new RegExp(`${payload}`, 'gi');
+          return (
+            appointment.patient.first_name.match(regex) ||
+            appointment.patient.last_name.match(regex)
+          );
+        }),
+      };
+    case CLEAR_FILTER_APPOINTEMNT:
+      return {
+        ...state,
+        filtered: null,
       };
     default:
       return state;

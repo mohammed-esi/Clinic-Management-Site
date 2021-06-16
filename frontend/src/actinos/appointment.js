@@ -7,6 +7,8 @@ import {
   DELETE_APPOINTMENT,
   CLEAR_APPOINTMENT,
   UPDATE_APPOINTMENT,
+  FILTERED_APPOINTEMNTS,
+  CLEAR_FILTER_APPOINTEMNT,
 } from '../utils/constant';
 
 // Get Appointments
@@ -101,3 +103,11 @@ export const getAppointmentById = (id) => async (dispatch) => {
 
 // Clear Appointment
 export const clearAppointment = () => ({ type: CLEAR_APPOINTMENT });
+
+// Fiter Appointment
+export const filterAppointments = (text) => (dispatch) => {
+  dispatch({ type: FILTERED_APPOINTEMNTS, payload: text });
+};
+
+// Clear filtered
+export const clearFilter = () => ({ type: CLEAR_FILTER_APPOINTEMNT });
