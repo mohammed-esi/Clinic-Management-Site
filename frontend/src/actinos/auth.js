@@ -36,6 +36,7 @@ export const login = (email, password) => async (dispatch) => {
   const body = { email, password };
 
   const res = await api.post('/api/users/login', body);
+  console.log(res.data);
 
   if (res.data.status_code === 200) {
     dispatch({
@@ -44,6 +45,7 @@ export const login = (email, password) => async (dispatch) => {
     });
     dispatch(loadUser());
   } else {
+    console.log(res.data.msg);
     dispatch({
       type: AUTH_ERROR,
       payload: res.data.msg,

@@ -6,6 +6,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login, clearError } from '../../actinos/auth';
 
+import logo from '../../assets/images/logo.png';
+
 function Login({
   login,
   clearError,
@@ -34,46 +36,56 @@ function Login({
   };
 
   if (isAuthenticated) {
-    return <Redirect to='/dashboard' />;
+    return <Redirect to='/dashboard/patients' />;
   }
   return (
     <>
       <div className='container'>
-        <div className='col-8 offset-2'>
-          <div className='card my-5'>
-            <div className='card-body'>
-              <div className='d-flex justify-content-center my-2'>
-                <h1>Login</h1>
+        <div className='row d-flex justify-content-center'>
+          <img
+            src={logo}
+            className='img-fluid'
+            width={'100px'}
+            height={'100px'}
+          />
+        </div>
+        <div className='row'>
+          <div className='col-6 offset-3'>
+            <div className='card my-5'>
+              <div className='card-body'>
+                <div className='d-flex justify-content-center mt-2 mb-5'>
+                  <h1>Login</h1>
+                </div>
+                <form onSubmit={onSubmit}>
+                  <div className='form-group mb-4'>
+                    <input
+                      type='email'
+                      name='email'
+                      value={email}
+                      className='form-control'
+                      placeholder='Enter email'
+                      onChange={onChange}
+                    />
+                  </div>
+                  <div className='form-group mb-4'>
+                    <input
+                      type='password'
+                      name='password'
+                      value={password}
+                      className='form-control'
+                      placeholder='Enter password'
+                      onChange={onChange}
+                    />
+                  </div>
+                  <div className='d-flex justify-content-center'>
+                    <button type='submit' className='btn btn-primary mb-2 px-5'>
+                      Login
+                    </button>
+                  </div>
+                </form>
               </div>
-              <form onSubmit={onSubmit}>
-                <div className='form-group'>
-                  <label>Email address:</label>
-                  <input
-                    type='email'
-                    name='email'
-                    value={email}
-                    className='form-control'
-                    placeholder='Enter email'
-                    onChange={onChange}
-                  />
-                </div>
-                <div className='form-group'>
-                  <label>Password:</label>
-                  <input
-                    type='password'
-                    name='password'
-                    value={password}
-                    className='form-control'
-                    placeholder='Enter password'
-                    onChange={onChange}
-                  />
-                </div>
-                <button type='submit' className='btn btn-primary'>
-                  Login
-                </button>
-              </form>
+              <ToastContainer />
             </div>
-            <ToastContainer />
           </div>
         </div>
       </div>

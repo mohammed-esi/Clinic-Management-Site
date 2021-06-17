@@ -29,10 +29,12 @@ function authReducer(state = initialState, action) {
       localStorage.setItem('token', payload.token);
       return {
         ...state,
+        ...payload,
         isAuthenticated: true,
       };
     case AUTH_ERROR:
     case LOGOUT:
+      localStorage.removeItem('token');
       return {
         ...state,
         token: null,

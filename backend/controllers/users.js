@@ -30,7 +30,10 @@ const getSelf = async (req, res, next) => {
 const loginUser = async (req, res, next) => {
   let errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.json({
+      status_code: 400,
+      msg: 'Confirm all fields are fill and password at least 6 characters!',
+    });
   }
 
   const { email, password } = req.body;
