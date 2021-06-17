@@ -4,19 +4,18 @@ import { connect } from 'react-redux';
 import { logout } from '../../../actinos/auth';
 import PropTypes from 'prop-types';
 
+import logo from '../../../assets/images/logo.png';
+
 const Sidebar = ({ logout }) => {
   return (
     <nav id='sidebar'>
       <div className='sidebar-header'>
-        <h3>Future Safety</h3>
+        <div className='d-flex justify-content-center'>
+          <img src={logo} className='img-fluid w-50 h-50' />
+        </div>
       </div>
 
       <ul className='list-unstyled components'>
-        <li>
-          <Link className='sidebar-link' to='/dashboard'>
-            Dashbaord
-          </Link>
-        </li>
         <li>
           <Link className='sidebar-link' to='/dashboard/patients'>
             Patients

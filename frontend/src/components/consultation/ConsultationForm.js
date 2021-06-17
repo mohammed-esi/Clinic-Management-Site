@@ -177,9 +177,6 @@ function ConsultationForm({
                     : 'Create Consultation'
                 }
               />
-              <Link to='/dashboard' className='btn btn-info ml-2'>
-                Come Back
-              </Link>
             </div>
           </form>
           <ToastContainer />

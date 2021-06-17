@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { filterPatients, clearFilter } from '../../actinos/patient';
+import { User } from 'react-feather';
 
 function FilterPatient({ filterPatients, clearFilter, patient: { filtered } }) {
   const text = useRef('');
@@ -36,7 +37,7 @@ function FilterPatient({ filterPatients, clearFilter, patient: { filtered } }) {
       </div>
       <div className='col-md-6 d-flex justify-content-end'>
         <Link to='/dashboard/create_patient' className='btn btn-primary mb-3'>
-          Create Patient
+          <User size={24} className='mr-2 mb-1' /> Create Patient
         </Link>
       </div>
     </div>

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { deletePatient } from '../../actinos/patient';
+import { Trash2, Edit3 } from 'react-feather';
 
 function PtientItem({ patient, deletePatient, history }) {
   const {
@@ -40,10 +41,10 @@ function PtientItem({ patient, deletePatient, history }) {
           <td>
             <div className='d-flex'>
               <button className='btn btn-danger mx-2' onClick={onDelete}>
-                <i class='fas fa-trash-alt'></i>
+                <Trash2 />
               </button>
               <button className='btn btn-info mx-2' onClick={onEdit}>
-                <i class='fas fa-edit'></i>
+                <Edit3 />
               </button>
             </div>
           </td>

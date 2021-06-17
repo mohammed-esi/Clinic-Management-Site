@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { deleteConsultation } from '../../actinos/consultation';
+import { Trash2, Edit3 } from 'react-feather';
 
 function ConsultationItem({ consultation, deleteConsultation, history }) {
   const {
@@ -38,16 +39,15 @@ function ConsultationItem({ consultation, deleteConsultation, history }) {
           <td>
             <div className='d-flex'>
               <button className='btn btn-danger mx-2' onClick={onDelete}>
-                <i class='fas fa-trash-alt'></i>
+                <Trash2 />
               </button>
               <button className='btn btn-info mx-2' onClick={onEdit}>
-                <i class='fas fa-edit'></i>
+                <Edit3 />
               </button>
             </div>
           </td>
         </tr>
       </tbody>
-      <ToastContainer />
     </>
   );
 }

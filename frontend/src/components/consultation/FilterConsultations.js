@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { filterConsultations, clearFilter } from '../../actinos/consultation';
+import { BarChart2 } from 'react-feather';
 
 function FilterConsultations({
   filterConsultations,
@@ -42,6 +43,7 @@ function FilterConsultations({
           to='/dashboard/choose_appointment'
           className='btn btn-primary mb-3'
         >
+          <BarChart2 size={24} className='mr-2 mb-1' />
           Create Consultation
         </Link>
       </div>

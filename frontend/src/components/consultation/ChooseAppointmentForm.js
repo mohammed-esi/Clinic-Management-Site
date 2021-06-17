@@ -47,9 +47,6 @@ function ChooseAppointmentForm(props) {
                 className='btn btn-primary'
                 value={'Create Consultation'}
               />
-              <Link to='/dashboard' className='btn btn-info ml-2'>
-                Come Back
-              </Link>
             </div>
           </form>
           <ToastContainer />

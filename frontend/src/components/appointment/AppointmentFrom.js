@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, withRouter } from 'react-router-dom';
+import { useLocation, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
@@ -115,9 +115,6 @@ function AppointmentForm({
                 className='btn btn-primary'
                 value={query.get('appointment_id') ? 'Edit' : 'Create'}
               />
-              <Link to='/dashboard' className='btn btn-info ml-2'>
-                Come Back
-              </Link>
             </div>
           </form>
           <ToastContainer />

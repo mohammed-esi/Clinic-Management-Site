@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { filterMedicaments, clearFilter } from '../../actinos/medicament';
+import { Activity } from 'react-feather';
 
 function FilterMedicament({
   filterMedicaments,
@@ -42,7 +43,7 @@ function FilterMedicament({
           to='/dashboard/create_medicament'
           className='btn btn-primary mb-3'
         >
-          Create Medicament
+          <Activity size={24} className='mr-2 mb-1' /> Create Medicament
         </Link>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { filterAppointments, clearFilter } from '../../actinos/appointment';
+import { Calendar } from 'react-feather';
 
 function FilterAppointmet({
   filterAppointments,
@@ -42,7 +43,7 @@ function FilterAppointmet({
           to='/dashboard/create_appointment'
           className='btn btn-primary mb-3'
         >
-          Create Appointment
+          <Calendar size={24} className='mr-2 mb-1' /> Create Appointment
         </Link>
       </div>
     </div>

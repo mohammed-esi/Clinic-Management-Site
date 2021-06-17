@@ -25,7 +25,7 @@ function Patients({
       {!loading ? (
         <div className='container my-5'>
           <div className='row mb-4'>
-            <h1>All Patient</h1>
+            <h1>All Patients</h1>
           </div>
           <FilterPatient />
           <div className='row'>
