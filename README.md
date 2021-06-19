@@ -14,14 +14,17 @@ there is config file to data base into config folder `db.js`, to contact data ba
 
 # Quick Start 🚀
 
-### Add a default.json file in config folder with the following
+### Add a config.js file in config folder with the following
 
 ```
-{
-  "mongoURI": "<your_mongoDB_Atlas_uri_with_credentials>",
-  "jwtSecret": "secret",
-  "githubToken": "<yoursecrectaccesstoken>"
-}
+module.exports = {
+  username: [your username],
+  password: [your password],
+  database: [your data base],
+  host: 'localhost',
+  dialect: 'mysql',
+  jwtSecret: [your secret into jwt],
+};
 ```
 
 ### Install server dependencies
@@ -39,8 +42,15 @@ npm install
 
 ### Run both Express & React from root
 
+
+into backend folder
 ```bash
-npm run dev
+npm run server
+```
+
+into frontend folder
+```bash
+npm start
 ```
 
 ### Build for production
