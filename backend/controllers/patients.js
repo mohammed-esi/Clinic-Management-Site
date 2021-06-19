@@ -54,7 +54,7 @@ const createPatient = async (req, res, next) => {
     user_id: req.user.id,
   });
 
-  res.json(patient);
+  res.json({ status_code: 200, data: patient });
 };
 
 // @route DELETE /api/patients/:id

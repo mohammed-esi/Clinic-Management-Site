@@ -34,7 +34,7 @@ function PrescripedMedicamentForm({
   const onSubmit = (e) => {
     e.preventDefault();
     if (dosage === '' || medicament_id === '') {
-      return toast.error('Fill all Fields please1');
+      return toast.error('Fill all Fields please!');
     }
     addPrescribedMedicament(formData);
     setFormData({
@@ -42,7 +42,7 @@ function PrescripedMedicamentForm({
       medicament_id: '',
       dosage: '',
     });
-    toast.success('Added new prescirbed successfuly!');
+    toast.success('Added new prescribed successfuly!');
   };
 
   return (

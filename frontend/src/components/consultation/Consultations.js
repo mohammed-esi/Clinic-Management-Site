@@ -28,7 +28,7 @@ function Consultations({
       {!loading ? (
         <div className='container my-5'>
           <div className='row mb-4'>
-            <h1>All Consultaions</h1>
+            <h1>All Consultations</h1>
           </div>
           <FilterConsultations />
           <div className='row'>

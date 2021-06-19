@@ -70,7 +70,6 @@ export const deleteAppointment = (id) => async (dispatch) => {
 export const updateAppointment = (id, formData) => async (dispatch) => {
   try {
     const res = await api.put(`/api/appointments/${id}`, formData);
-    console.log(res.data);
 
     dispatch({
       type: UPDATE_APPOINTMENT,

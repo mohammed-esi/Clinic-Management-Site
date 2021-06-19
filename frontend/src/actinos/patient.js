@@ -1,4 +1,5 @@
 import api from '../utils/api';
+import { toast } from 'react-toastify';
 import {
   GET_PATIENTS,
   PAITENT_ERROR,
@@ -31,19 +32,23 @@ export const getPatients = () => async (dispatch) => {
 // Add Patient
 export const addPatient = (formData) => async (dispatch) => {
   const res = await api.post('/api/patients', formData);
-  console.log(res.data);
 
   if (res.data.status_code === 200) {
-    dispatch({
-      type: CREATE_PATIENT,
-      payload: res.data,
-    });
+    dispatch(
+      {
+        type: CREATE_PATIENT,
+        payload: res.data.data,
+      },
+      toast.success('Added new patient successfuly!')
+    );
   } else {
-    console.log(res.data);
-    dispatch({
-      type: PAITENT_ERROR,
-      payload: res.data.msg,
-    });
+    dispatch(
+      {
+        type: PAITENT_ERROR,
+        payload: res.data.msg,
+      },
+      toast.error(res.data.msg)
+    );
   }
 };
 

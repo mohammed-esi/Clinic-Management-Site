@@ -10,7 +10,7 @@ import { updatePatient } from '../../actinos/patient';
 function PtientForm({
   addPatient,
   getPatientById,
-  patient: { patient, error },
+  patient: { patient },
   updatePatient,
   history,
 }) {
@@ -66,7 +66,6 @@ function PtientForm({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (error) return toast.error(error);
     if (query.get('patient_id')) {
       updatePatient(parseInt(query.get('patient_id')), formData);
       toast.info('Update successfuly');
@@ -75,7 +74,6 @@ function PtientForm({
       }, 2000);
     } else {
       addPatient(formData);
-      toast.success('Patient has been created !');
     }
     setFormData({
       first_name: '',

@@ -36,7 +36,6 @@ export const login = (email, password) => async (dispatch) => {
   const body = { email, password };
 
   const res = await api.post('/api/users/login', body);
-  console.log(res.data);
 
   if (res.data.status_code === 200) {
     dispatch({
