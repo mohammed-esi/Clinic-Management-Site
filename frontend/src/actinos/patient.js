@@ -54,19 +54,21 @@ export const addPatient = (formData) => async (dispatch) => {
 
 // Delete patient
 export const deletePatient = (id) => async (dispatch) => {
-  try {
-    await api.delete(`/api/patients/${id}`);
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
+    try {
+      await api.delete(`/api/patients/${id}`);
 
-    dispatch({
-      type: DELETE_PATIENT,
-      payload: id,
-    });
-  } catch (err) {
-    console.log(err);
-    dispatch({
-      type: PAITENT_ERROR,
-      payload: err.message,
-    });
+      dispatch({
+        type: DELETE_PATIENT,
+        payload: id,
+      });
+    } catch (err) {
+      console.log(err);
+      dispatch({
+        type: PAITENT_ERROR,
+        payload: err.message,
+      });
+    }
   }
 };
 

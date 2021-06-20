@@ -38,7 +38,7 @@ function Consultations({
                   <>
                     {filtered.length > 0 ? (
                       <>
-                        <table className='table'>
+                        <table className='table table-bordered'>
                           <thead>
                             <tr>
                               <th scope='col'>First Name</th>
@@ -80,7 +80,7 @@ function Consultations({
                   </>
                 ) : (
                   <>
-                    <table className='table'>
+                    <table className='table table-bordered'>
                       <thead>
                         <tr>
                           <th scope='col'>First Name</th>

@@ -37,7 +37,7 @@ function Patients({
                       <table className='table table-bordered'>
                         <thead>
                           <tr>
-                            <th scope='col'>Frist Name</th>
+                            <th scope='col'>First Name</th>
                             <th scope='col'>Last Name</th>
                             <th scope='col'>City</th>
                             <th scope='col'>Sex</th>
@@ -56,7 +56,7 @@ function Patients({
                       <table className='table table-bordered'>
                         <thead>
                           <tr>
-                            <th scope='col'>Frist Name</th>
+                            <th scope='col'>First Name</th>
                             <th scope='col'>Last Name</th>
                             <th scope='col'>City</th>
                             <th scope='col'>Sex</th>
@@ -78,7 +78,7 @@ function Patients({
                   <table className='table table-bordered'>
                     <thead>
                       <tr>
-                        <th scope='col'>Frist Name</th>
+                        <th scope='col'>First Name</th>
                         <th scope='col'>Last Name</th>
                         <th scope='col'>City</th>
                         <th scope='col'>Sex</th>

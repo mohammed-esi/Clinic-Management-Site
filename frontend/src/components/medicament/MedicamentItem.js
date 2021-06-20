@@ -27,8 +27,6 @@ function MedicamentItem({ medicament, deleteMedicament, history }) {
     <>
       <tbody>
         <tr>
-          <td>{id}</td>
-          <td>{full_name}</td>
           <td>{name}</td>
           <td>{createdAt}</td>
           <td>

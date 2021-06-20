@@ -66,19 +66,21 @@ export const createMedicament = (formData) => async (dispatch) => {
 
 // Delete Medicament
 export const deleteMedicament = (id) => async (dispatch) => {
-  try {
-    await api.delete(`/api/medicaments/${id}`);
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
+    try {
+      await api.delete(`/api/medicaments/${id}`);
 
-    dispatch({
-      type: DELETE_MEDICAMENT,
-      payload: id,
-    });
-  } catch (err) {
-    console.log(err);
-    dispatch({
-      type: MEDICAMENT_ERROR,
-      payload: err.message,
-    });
+      dispatch({
+        type: DELETE_MEDICAMENT,
+        payload: id,
+      });
+    } catch (err) {
+      console.log(err);
+      dispatch({
+        type: MEDICAMENT_ERROR,
+        payload: err.message,
+      });
+    }
   }
 };
 

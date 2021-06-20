@@ -35,7 +35,7 @@ function Medicaments({
                   <>
                     {filtered.length > 0 ? (
                       <>
-                        <table className='table'>
+                        <table className='table table-bordered'>
                           <thead>
                             <tr>
                               <th scope='col'>/</th>
@@ -75,11 +75,9 @@ function Medicaments({
                   </>
                 ) : (
                   <>
-                    <table className='table'>
+                    <table className='table table-bordered'>
                       <thead>
                         <tr>
-                          <th scope='col'>/</th>
-                          <th scope='col'>Doctor / Secretary</th>
                           <th scope='col'>Name</th>
                           <th scope='col'>Date</th>
                           <th scope='col'>Action</th>

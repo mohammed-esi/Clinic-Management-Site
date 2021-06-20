@@ -51,18 +51,20 @@ export const addAppointment = (formData) => async (dispatch) => {
 
 // Delete Appointment
 export const deleteAppointment = (id) => async (dispatch) => {
-  try {
-    await api.delete(`/api/appointments/${id}`);
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
+    try {
+      await api.delete(`/api/appointments/${id}`);
 
-    dispatch({
-      type: DELETE_APPOINTMENT,
-      payload: id,
-    });
-  } catch (err) {
-    dispatch({
-      type: APPOINTMENT_ERROR,
-      payload: err.message,
-    });
+      dispatch({
+        type: DELETE_APPOINTMENT,
+        payload: id,
+      });
+    } catch (err) {
+      dispatch({
+        type: APPOINTMENT_ERROR,
+        payload: err.message,
+      });
+    }
   }
 };
 
